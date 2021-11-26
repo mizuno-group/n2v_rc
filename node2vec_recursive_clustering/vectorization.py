@@ -17,11 +17,11 @@ from gensim.models import Word2Vec
 
 class Vectorization():
     def __init__(self):
-        self.__g = None
-        self.__obj_p = dict
-        self.__fit_p = dict
-        self.__vec_df = pd.DataFrame()
-        self.__model = None
+        self.g = None
+        self.obj_p = dict
+        self.fit_p = dict
+        self.vec_df = pd.DataFrame()
+        self.model = None
     
     # set networkx.Graph class from bottom two ways
     def el2g(self,el_df):
@@ -51,13 +51,13 @@ class Vectorization():
         G = nx.Graph()
         for i in range(len(S)):
             G.add_edge(S[i],D[i],weight=W[i])
-        self.__g = G
+        self.g = G
     
     def setg(self,G):
         """
         set networkx Graph class directly
         """
-        self.__g = G
+        self.g = G
 
 
     def set_model(self,model_path):
@@ -65,7 +65,7 @@ class Vectorization():
         se pre-trained model
         # save model with 'model.save(model_path)'
         """
-        self.__model = Word2Vec.load(model_path)
+        self.model = Word2Vec.load(model_path)
     
     def set_parameter(self,dimensions=128,walk_length=100,num_walks=20,p=1,q=1,workers=4,window=15,min_count=1,sg=1):
         """
@@ -78,24 +78,24 @@ class Vectorization():
         5. q: Inout parameter
         6. workers: Number of workers for parallel execution
         """
-        self.__obj_p = {'dimensions':dimensions,'walk_length':walk_length, 'num_walks':num_walks, 'p':p, 'q':q, 'workers':workers}
-        self.__fit_p = {'window':window, 'min_count':min_count,'sg':sg}
+        self.obj_p = {'dimensions':dimensions,'walk_length':walk_length, 'num_walks':num_walks, 'p':p, 'q':q, 'workers':workers}
+        self.fit_p = {'window':window, 'min_count':min_count,'sg':sg}
         print("use these parameter")
-        print(self.__obj_p)
-        print(self.__fit_p)
+        print(self.obj_p)
+        print(self.fit_p)
         
     def conduct_vectorization(self):
         """
         this process may take a few minutes
         """
-        n2v_obj = Node2Vec(self.__g, dimensions=self.__obj_p.get('dimensions'), walk_length=self.__obj_p.get('walk_length'), num_walks=self.__obj_p.get('num_walks'), p=self.__obj_p.get('p'), q=self.__obj_p.get('q'), workers=self.__obj_p.get('workers'))
-        self.__model = n2v_obj.fit(window=self.__fit_p.get('window'), min_count=self.__fit_p.get('min_count'), sg=self.__fit_p.get('sg'))
+        n2v_obj = Node2Vec(self.g, dimensions=self.obj_p.get('dimensions'), walk_length=self.obj_p.get('walk_length'), num_walks=self.obj_p.get('num_walks'), p=self.obj_p.get('p'), q=self.obj_p.get('q'), workers=self.obj_p.get('workers'))
+        self.model = n2v_obj.fit(window=self.fit_p.get('window'), min_count=self.fit_p.get('min_count'), sg=self.fit_p.get('sg'))
         
-        norm_vec = self.__model.wv.get_normed_vectors() # extract normalized vector
-        names = self.__model.wv.index_to_key
-        self.__vec_df = pd.DataFrame(norm_vec,index=names).astype(float) # vectors of node2vec
+        norm_vec = self.model.wv.get_normed_vectors() # extract normalized vector
+        names = self.model.wv.index_to_key
+        self.vec_df = pd.DataFrame(norm_vec,index=names).astype(float) # vectors of node2vec
         
     def get_vec(self):
-        return self.__vec_df
+        return self.vec_df
         
     

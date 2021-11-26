@@ -44,24 +44,27 @@ class Node2Vec_Recursive_Clustering(Vectorization):
         Vectorization.setg(self,g) # set graph information
         Vectorization.set_parameter(self,dimensions=dimensions,walk_length=walk_length,num_walks=num_walks,p=p,q=q,workers=workers,window=window,min_count=min_count,sg=sg)
         Vectorization.conduct_vectorization(self)
+    
+    def get_vec(self):
+        return self.vec_df
         
     def set_existing(self,g,df):
         """
         you can set embedded d-dimensional vectors directly
         """
-        self.__g = g
-        self.__vec_df = df
+        self.g = g
+        self.vec_df = df
     
     def first_step(self,alpha=1.0,spd=0,centrality_centroid=False,centrality_dic:dict={},do_plot=True,spd_consideration=False,start=2,ns=10):
         """
         Determine the optimal number of k-splits from the transition of Q
         """
         if spd == 0:
-            spd = nx.average_shortest_path_length(self.__g) # average shortest path length of all node pairs
+            spd = nx.average_shortest_path_length(self.g) # average shortest path length of all node pairs
         else:
             pass
         print("whole network SPD :",spd)
-        v0 = spd/(math.log(len(self.__g.nodes)))**alpha # parent compactness
+        v0 = spd/(math.log(len(self.g.nodes)))**alpha # parent compactness
         self.__v0 = v0
         if centrality_centroid:
             print('KMeans with centrality centroid')
@@ -73,12 +76,12 @@ class Node2Vec_Recursive_Clustering(Vectorization):
             print('KMenas with default KMeans++')
         print("")
         # decide k-split with modularity (determine initial centroid with network centrality or default KMeans++)
-        first_children, first_result, first_qmax = modularity_kmeans(self.__g,self.__vec_df,centrality_dic=centrality_dic,target=set(self.__g.nodes()),centrality_centroid=centrality_centroid,do_plot=do_plot,spd_consideration=spd_consideration,start=start,ns=ns) 
+        first_children, first_result, first_qmax = modularity_kmeans(self.g,self.vec_df,centrality_dic=centrality_dic,target=set(self.g.nodes()),centrality_centroid=centrality_centroid,do_plot=do_plot,spd_consideration=spd_consideration,start=start,ns=ns) 
         
         # evaluate each module after K-Means
         first_vl = []
         for c in first_children:
-            first_vl.append(calc_compactness(self.__g,c))
+            first_vl.append(calc_compactness(self.g,c))
         w = 0
         for vl in first_vl:
             if vl < v0:
@@ -149,7 +152,7 @@ class Node2Vec_Recursive_Clustering(Vectorization):
             vp = target_vl[0]
             # module size > min_threshold
             if len(t) > min_threshold:
-                children, label, qmax = modularity_kmeans(self.__g,self.__vec_df,centrality_dic=centrality_dic,target=t,centrality_centroid=centrality_centroid,do_plot=do_plot,spd_consideration=False,ns=ns)
+                children, label, qmax = modularity_kmeans(self.g,self.vec_df,centrality_dic=centrality_dic,target=t,centrality_centroid=centrality_centroid,do_plot=do_plot,spd_consideration=False,ns=ns)
                 
                 size_list = [len(x) for x in children]
                 if len(size_list)==0:
@@ -162,7 +165,7 @@ class Node2Vec_Recursive_Clustering(Vectorization):
                     # calc children compactness
                     children_vl = []
                     for c in children:
-                        children_vl.append(calc_compactness(self.__g,c))
+                        children_vl.append(calc_compactness(self.g,c))
                     w=0
                     for vl in children_vl:
                         if vl < vp:
