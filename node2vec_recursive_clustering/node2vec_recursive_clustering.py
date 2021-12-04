@@ -202,7 +202,7 @@ class Node2Vec_Recursive_Clustering(Vectorization):
                 
     def summarize_module(self):
         """
-          V1     V2    V3    ・・・  Vn
+          V1     V2    V3   ・・・  Vn
         gene1  gene5  gene6     genex
         gene2   nan   gene7     nan
         gene3   nan   gene8     nan
@@ -249,6 +249,7 @@ def modularity_kmeans(g,vec_df,centrality_dic:dict,target:set,centrality_centroi
         max modularity(Q) at the best split
 
     """
+    #target = set(str(x) for x in target)
     sub_g = nx.Graph.subgraph(g,target) # extract subgraph from whole g
     module_vec = vec_df.loc[target] # extract module vectors from node2vec whole vectors
     
