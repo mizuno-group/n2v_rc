@@ -1,4 +1,0 @@
-211204
-node2vec	0.4.3
-ipywidgets	7.5.1
-jupyter		1.0.0
