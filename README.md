@@ -1,7 +1,7 @@
 # n2v_rc
 
 ## n2v_rc : Node2Vec-recursive clustering
-- n2v_rc is a unsupervised module(subnetwork) detection method utilizing node2vec, a graph embedding method using the skip-gram algorithm (Grover and Leskovec, 2016). 
+- n2v_rc is a unsupervised module (subnetwork) detection method utilizing node2vec, a graph embedding method using the skip-gram algorithm (Grover and Leskovec, 2016). 
 
 ## Environment
 We confirmed that this program works in the following environments.
