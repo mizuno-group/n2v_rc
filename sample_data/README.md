@@ -1,4 +1,5 @@
 # sample data information
+sample gene co-expression network data. 12436 genes and 31895 links are contained.
 
 ## items and contents
 - sample_cor_gpickle : Graph object in Python pickle format
