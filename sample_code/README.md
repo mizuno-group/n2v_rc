@@ -13,3 +13,4 @@
 2. first step : determine the optimal number of clusters k using K-Means clustering with monitoring Q (modularity)
 3. save the above first step result in Python pickle format
 4. recursive step : perform the same operation recursively on the determined clusters
+5. obtain the clusters and their components information as csv format
