@@ -16,7 +16,7 @@ We confirmed that this program works in the following environments.
 ```
 git clone https://github.com/mizuno-group/n2v_rc.git
 ```
-Please clone this registry locally and use it.
+Please clone this repository locally and use it.
 
 ## Usage
 Please refer to the ipynb files in sample_code folder.
