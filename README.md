@@ -13,7 +13,7 @@ We confirmed that this program works in the following environments
 - node2vec 0.4.3
 
 ## Usage
-
+"""a"""
 
 ## Authors
 Iori Azuma and Tadahaya Mizuno
