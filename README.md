@@ -1,9 +1,8 @@
-# n2v_rc
+## n2v_rc : Node2Vec Recursive Clustering
 ![graphical_abstract](https://user-images.githubusercontent.com/92911852/231354612-27080b5a-02b4-4606-9437-5a9671cf6eb1.png)
 
-## n2v_rc : Node2Vec Recursive Clustering
-- n2v_rc is a unsupervised module (subnetwork) detection method utilizing node2vec, a graph embedding method using the skip-gram algorithm (Grover and Leskovec, 2016). 
 
+- n2v_rc is a unsupervised module (subnetwork) detection method utilizing node2vec, a graph embedding method using the skip-gram algorithm (Grover and Leskovec, 2016). 
 ## Environment
 We confirmed that this program works in the following environments.
 - Python 3.8.10
